@@ -1,5 +1,12 @@
 ---
-const slogan = "Silent Systems. Unseen Power.";
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+import ProjectCard from '../components/ProjectCard.astro';
+import '../styles/global.css';
+
+const slogan = 'Silent Systems. Unseen Power.';
+const reader = createReader(process.cwd(), keystaticConfig);
+const projects = await reader.collections.projects.all();
 ---
 
 <html lang="en">
@@ -7,117 +14,33 @@ const slogan = "Silent Systems. Unseen Power.";
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Penumbral Monolith</title>
-    <style>
-      :root {
-        --obsidian: #0a0a0d;
-        --obsidian-soft: #121217;
-        --gold: #c9a241;
-        --gold-bright: #f3d487;
-        --text: #eae7df;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: "Inter", "Helvetica Neue", sans-serif;
-        background: radial-gradient(circle at 50% 20%, var(--obsidian-soft) 0%, var(--obsidian) 65%);
-        color: var(--text);
-        letter-spacing: 0.015em;
-      }
-
-      .shell {
-        max-width: 1080px;
-        margin: 0 auto;
-        padding: 4rem 1.25rem;
-      }
-
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border: 1px solid rgba(201, 162, 65, 0.35);
-        background: rgba(10, 10, 13, 0.7);
-        padding: 1rem 1.2rem;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 0.85rem;
-      }
-
-      .brand h1 {
-        margin: 0;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: var(--gold-bright);
-      }
-
-      .tagline {
-        margin: 5rem 0 0;
-        font-size: clamp(1.2rem, 2.4vw, 2.2rem);
-        font-weight: 300;
-      }
-
-      .grid {
-        margin-top: 2rem;
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      }
-
-      .card {
-        padding: 1rem;
-        border: 1px solid rgba(201, 162, 65, 0.2);
-        background: rgba(18, 18, 23, 0.72);
-      }
-
-      .card h2 {
-        margin: 0 0 0.4rem;
-        color: var(--gold-bright);
-        font-size: 1rem;
-      }
-
-      .card p {
-        margin: 0;
-        opacity: 0.88;
-        font-size: 0.95rem;
-      }
-    </style>
   </head>
-  <body>
-    <main class="shell">
-      <header>
-        <div class="brand">
-          <svg width="52" height="52" viewBox="0 0 120 120" role="img" aria-label="Penumbral Monolith Logo">
-            <rect x="1" y="1" width="118" height="118" fill="#0b0b10" stroke="#c9a241" stroke-width="2"/>
-            <polygon points="60,12 30,100 90,100" fill="#c9a241" />
-            <polygon points="60,20 38,94 82,94" fill="#f3d487" opacity="0.45" />
-            <line x1="60" y1="12" x2="60" y2="100" stroke="#0b0b10" stroke-width="3" opacity="0.7" />
+  <body class="min-h-screen bg-[#07070b] text-zinc-100 antialiased">
+    <main class="mx-auto max-w-6xl px-5 py-14">
+      <header class="flex items-center justify-between border border-[#D4AF37]/35 bg-[#0b0b10]/80 px-5 py-4">
+        <div class="flex items-center gap-4">
+          <svg width="56" height="56" viewBox="0 0 120 120" role="img" aria-label="Penumbral Monolith Logo">
+            <rect x="2" y="2" width="116" height="116" fill="#09090d" stroke="#D4AF37" stroke-width="2"/>
+            <polygon points="60,14 32,104 88,104" fill="#D4AF37"/>
+            <polygon points="60,24 41,97 79,97" fill="#151515" opacity="0.28"/>
+            <line x1="60" y1="14" x2="60" y2="104" stroke="#09090d" stroke-width="3" opacity="0.72"/>
           </svg>
-          <h1>Penumbral Monolith</h1>
+          <h1 class="text-xl font-semibold tracking-wide text-[#D4AF37]">Penumbral Monolith</h1>
         </div>
       </header>
 
-      <p class="tagline">{slogan}</p>
+      <p class="mt-16 text-2xl font-light tracking-wide text-zinc-200 md:text-4xl">{slogan}</p>
 
-      <section class="grid">
-        <article class="card">
-          <h2>Keryx Messenger</h2>
-          <p>Terminal-grade communications for operators and hidden networks.</p>
-        </article>
-        <article class="card">
-          <h2>Aether-Sight</h2>
-          <p>Computer vision services for realtime inference and visual intelligence.</p>
-        </article>
-        <article class="card">
-          <h2>Studio Systems</h2>
-          <p>Unified architecture by proxy-routed, containerized service boundaries.</p>
-        </article>
+      <section class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((project) => (
+            <ProjectCard
+              title={project.entry.title}
+              description={project.entry.description}
+              projectUrl={project.entry.projectUrl ?? undefined}
+            />
+          ))
+        }
       </section>
     </main>
   </body>

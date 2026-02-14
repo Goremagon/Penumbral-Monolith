@@ -22,6 +22,8 @@ services:
       context: ./astro-hub
     container_name: penumbral-astro-hub
     restart: unless-stopped
+    volumes:
+      - ./astro-hub/src/content:/app/src/content
     expose:
       - "4321"
 
