@@ -56,6 +56,10 @@ services:
     image: silexlabs/silex
     container_name: penumbral-silex
     restart: unless-stopped
+    depends_on:
+      - astro-hub
+      - keryx
+      - aether-sight
     environment:
       - SILEX_FS_ROOT=/silex/output
     volumes:
