@@ -1,0 +1,72 @@
+version: '3.9'
+
+services:
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: penumbral-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - astro-hub
+      - keryx
+      - aether-sight
+      - silex
+    networks:
+      - monolith-net
+
+  astro-hub:
+    build:
+      context: ./astro-hub
+    container_name: penumbral-astro-hub
+    restart: unless-stopped
+    volumes:
+      - ./astro-hub/src/content:/app/src/content
+    expose:
+      - "4321"
+    networks:
+      - monolith-net
+
+  keryx:
+    build:
+      context: ./keryx
+    container_name: penumbral-keryx
+    restart: unless-stopped
+    expose:
+      - "3000"
+    networks:
+      - monolith-net
+
+  aether-sight:
+    build:
+      context: ./aether-sight
+    container_name: penumbral-aether-sight
+    restart: unless-stopped
+    expose:
+      - "8000"
+    networks:
+      - monolith-net
+
+  silex:
+    image: silexlabs/silex
+    container_name: penumbral-silex
+    restart: unless-stopped
+    volumes:
+      - ./silex-data:/silex/storage
+    expose:
+      - "6805"
+    networks:
+      - monolith-net
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  monolith-net:
+    driver: bridge
