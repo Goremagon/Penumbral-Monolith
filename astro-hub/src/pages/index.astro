@@ -1,0 +1,47 @@
+---
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+import ProjectCard from '../components/ProjectCard.astro';
+import '../styles/global.css';
+
+const slogan = 'Silent Systems. Unseen Power.';
+const reader = createReader(process.cwd(), keystaticConfig);
+const projects = await reader.collections.projects.all();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Penumbral Monolith</title>
+  </head>
+  <body class="min-h-screen bg-[#07070b] text-zinc-100 antialiased">
+    <main class="mx-auto max-w-6xl px-5 py-14">
+      <header class="flex items-center justify-between border border-[#D4AF37]/35 bg-[#0b0b10]/80 px-5 py-4">
+        <div class="flex items-center gap-4">
+          <svg width="56" height="56" viewBox="0 0 120 120" role="img" aria-label="Penumbral Monolith Logo">
+            <rect x="2" y="2" width="116" height="116" fill="#09090d" stroke="#D4AF37" stroke-width="2"/>
+            <polygon points="60,14 32,104 88,104" fill="#D4AF37"/>
+            <polygon points="60,24 41,97 79,97" fill="#151515" opacity="0.28"/>
+            <line x1="60" y1="14" x2="60" y2="104" stroke="#09090d" stroke-width="3" opacity="0.72"/>
+          </svg>
+          <h1 class="text-xl font-semibold tracking-wide text-[#D4AF37]">Penumbral Monolith</h1>
+        </div>
+      </header>
+
+      <p class="mt-16 text-2xl font-light tracking-wide text-zinc-200 md:text-4xl">{slogan}</p>
+
+      <section class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((project) => (
+            <ProjectCard
+              title={project.entry.title}
+              description={project.entry.description}
+              projectUrl={project.entry.projectUrl ?? undefined}
+            />
+          ))
+        }
+      </section>
+    </main>
+  </body>
+</html>
