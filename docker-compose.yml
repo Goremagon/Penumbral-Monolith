@@ -56,8 +56,11 @@ services:
     image: silexlabs/silex
     container_name: penumbral-silex
     restart: unless-stopped
+    environment:
+      - SILEX_FS_ROOT=/silex/output
     volumes:
       - ./silex-data:/silex/storage
+      - ./astro-hub/public:/silex/output
     expose:
       - "6805"
     networks:
