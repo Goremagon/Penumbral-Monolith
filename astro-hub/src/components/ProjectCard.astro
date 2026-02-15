@@ -1,0 +1,26 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  projectUrl?: string;
+}
+
+const { title, description, projectUrl } = Astro.props;
+---
+
+<article class="group rounded-sm border border-[#D4AF37]/35 bg-[#0B0B10] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D4AF37]/70 hover:bg-[#111118]">
+  <h2 class="text-lg font-semibold tracking-wide text-[#D4AF37]">{title}</h2>
+  <p class="mt-2 text-sm leading-relaxed text-zinc-300">{description}</p>
+  {
+    projectUrl && (
+      <a
+        href={projectUrl}
+        target="_blank"
+        rel="noreferrer"
+        class="mt-4 inline-flex text-sm text-[#D4AF37] transition-colors duration-300 hover:text-[#f1d37a]"
+      >
+        Open Project →
+      </a>
+    )
+  }
+</article>

@@ -1,0 +1,5 @@
+node_modules/
+**/node_modules/
+__pycache__/
+astro-hub/.astro/
+astro-hub/dist/

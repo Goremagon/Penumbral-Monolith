@@ -1,0 +1,19 @@
+{
+  email admin@penumbralmonolith.com
+}
+
+penumbralmonolith.com, www.penumbralmonolith.com {
+  reverse_proxy astro-hub:4321
+}
+
+keryx.penumbralmonolith.com {
+  reverse_proxy keryx:3000
+}
+
+aethersight.penumbralmonolith.com {
+  reverse_proxy aether-sight:8000
+}
+
+design.penumbralmonolith.com {
+  reverse_proxy silex:6805
+}
