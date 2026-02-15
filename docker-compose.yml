@@ -16,6 +16,9 @@ services:
       - astro-hub
       - keryx
       - aether-sight
+      - silex
+    networks:
+      - monolith-net
 
   astro-hub:
     build:
@@ -26,6 +29,8 @@ services:
       - ./astro-hub/src/content:/app/src/content
     expose:
       - "4321"
+    networks:
+      - monolith-net
 
   keryx:
     build:
@@ -34,6 +39,8 @@ services:
     restart: unless-stopped
     expose:
       - "3000"
+    networks:
+      - monolith-net
 
   aether-sight:
     build:
@@ -42,7 +49,24 @@ services:
     restart: unless-stopped
     expose:
       - "8000"
+    networks:
+      - monolith-net
+
+  silex:
+    image: silexlabs/silex
+    container_name: penumbral-silex
+    restart: unless-stopped
+    volumes:
+      - ./silex-data:/silex/storage
+    expose:
+      - "6805"
+    networks:
+      - monolith-net
 
 volumes:
   caddy_data:
   caddy_config:
+
+networks:
+  monolith-net:
+    driver: bridge
